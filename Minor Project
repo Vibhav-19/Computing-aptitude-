@@ -1,0 +1,108 @@
+#include <iostream>  
+#include <fstream>  
+#include <string>  
+#include <iomanip> 
+#include <vector> 
+#include  
+<sstream>  
+using namespace std; // Function to 
+log a new expense void logExpense() 
+{ ofstream file;  
+f
+ ile.open("expenses.txt", ios::app); //  
+Open file in append 
+mode if (!file) {  
+cerr << "Error opening file!" << endl; return; } 
+string  
+date, category; double amount; 
+cout << "Enter date (YYYY-MM
+DD): "; cin >> date; cout << 
+"Enter category (e.g., Food,  
+Transport, Bills): "; cin >> category; cout  
+<< "Enter amount: "; cin >> amount;  
+// Write the expense data to the file file << date << 
+" " << category << " " <<  
+amount << endl; file.close(); cout << 
+"Expense logged successfully!"  
+<< endl;  
+}  
+// Function to view all expense history void 
+viewHistory() { ifstream file("expenses.txt");  
+if (!file) {  
+cerr << "Error opening file!" << endl; return; }  
+string line;  
+cout << "Date  
+| Category  
+<< endl; cout << "-------------" << endl;  
+while (getline(file, line)) { stringstream 
+ss(line); string date, category; double 
+amount; ss >> date >> category >> 
+amount;  
+cout << left << setw(10) << date << " |  
+" << setw(10) << category << " | " << fixed  
+<< setprecision(2) << amount << endl;  
+}  
+f
+ ile.close();  
+}  
+// Function to analyze monthly spending 
+void analyzeMonthlySpending(const string& 
+| Amount"  
+month) { ifstream file("expenses.txt"); if 
+(!file) { cerr << "Error opening file!" << endl; 
+return;  
+}  
+string line; double totalSpent =  
+0.0; int count = 0;  
+while (getline(file, line)) { stringstream ss(line); 
+string date, category; double amount; ss >> 
+date >> category >> amount;  
+// Check if the date belongs to the given month  
+(format YYYY-MM) if (date.substr(0, 7) == month)  
+{  
+totalSpent += amount; count++;  
+} }  
+f
+ ile.close(); 
+cout << "Total 
+spent in " << 
+month << ": $" 
+<< fixed << 
+setprecision(
+ 2)  
+<< totalSpent  
+<< endl; cout << "Number of 
+transactions: " <<  
+count << endl;  
+}  
+// Main menu void displayMenu() { 
+cout << "Expense Tracker Menu" 
+<<  
+endl; cout << "1. Log a new expense" << endl; cout 
+<< "2. View  
+expense history" << endl;  
+cout << "3. Analyze monthly spending"  
+<< endl; cout << "4. Exit" << endl;  
+}  
+int main() { int 
+choice; string 
+month;  
+do { displayMenu(); cout << "Enter your 
+choice:  
+"; cin >> choice;  
+switch (choice) { case 1: 
+logExpense(); break; 
+case 2: viewHistory(); 
+break; case 3:  
+cout << "Enter the month to  
+analyze (format YYYY-MM): "; cin >> month;  
+analyzeMonthlySpending(month); break; case 4:  
+cout << "Exiting program." <<  
+endl; break; 
+default:  
+cout << "Invalid choice. Please  
+try again." << endl;  
+}  
+} while (choice != 4);  
+return 0;  
+}  
